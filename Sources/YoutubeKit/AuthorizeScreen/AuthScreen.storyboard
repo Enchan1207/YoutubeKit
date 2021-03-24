@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tUP-MD-aPP">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Auth View Controller-->
+        <scene sceneID="iLl-co-WTQ">
+            <objects>
+                <viewController id="Swx-Ir-DQW" customClass="AuthViewController" customModule="YoutubeKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Jpe-Cj-nHU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jp5-Bv-tH0">
+                                <rect key="frame" x="0.0" y="89.5" width="414" height="723.5"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zVN-v1-vh6">
+                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
+                                <items>
+                                    <barButtonItem enabled="NO" title="Item" image="chevron.left" catalog="system" id="qYK-d3-R1a">
+                                        <connections>
+                                            <action selector="onTapBackButton:" destination="Swx-Ir-DQW" id="HWa-v0-nV9"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="cCM-J7-Sze"/>
+                                    <barButtonItem enabled="NO" title="Item" image="chevron.right" catalog="system" id="0nj-dS-QXP">
+                                        <connections>
+                                            <action selector="onTapForwardButton:" destination="Swx-Ir-DQW" id="BVj-uM-C8t"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="flexibleSpace" id="sYg-ZR-cVr"/>
+                                </items>
+                            </toolbar>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZA2-g5-Yji">
+                                <rect key="frame" x="0.0" y="88" width="414" height="2.5"/>
+                            </progressView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="KQq-Dg-zkV"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="KQq-Dg-zkV" firstAttribute="trailing" secondItem="ZA2-g5-Yji" secondAttribute="trailing" id="12T-Bk-LDE"/>
+                            <constraint firstItem="zVN-v1-vh6" firstAttribute="top" secondItem="Jp5-Bv-tH0" secondAttribute="bottom" id="7Nj-nE-fCG"/>
+                            <constraint firstItem="Jp5-Bv-tH0" firstAttribute="leading" secondItem="KQq-Dg-zkV" secondAttribute="leading" id="7Rl-56-SYB"/>
+                            <constraint firstItem="Jp5-Bv-tH0" firstAttribute="top" secondItem="ZA2-g5-Yji" secondAttribute="bottom" id="Lm4-qZ-lwa"/>
+                            <constraint firstItem="ZA2-g5-Yji" firstAttribute="leading" secondItem="KQq-Dg-zkV" secondAttribute="leading" id="dhD-JS-eJh"/>
+                            <constraint firstItem="ZA2-g5-Yji" firstAttribute="top" secondItem="KQq-Dg-zkV" secondAttribute="top" id="f4b-Xw-Eia"/>
+                            <constraint firstItem="KQq-Dg-zkV" firstAttribute="bottom" secondItem="zVN-v1-vh6" secondAttribute="bottom" id="hkS-fK-Eja"/>
+                            <constraint firstItem="zVN-v1-vh6" firstAttribute="leading" secondItem="KQq-Dg-zkV" secondAttribute="leading" id="ivk-9D-62l"/>
+                            <constraint firstAttribute="trailing" secondItem="zVN-v1-vh6" secondAttribute="trailing" id="qcM-dm-IE8"/>
+                            <constraint firstItem="KQq-Dg-zkV" firstAttribute="trailing" secondItem="Jp5-Bv-tH0" secondAttribute="trailing" id="ssf-x0-CqG"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="dAG-Nw-K8E">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="G96-0g-Mwg">
+                            <connections>
+                                <action selector="onTapCloseButton:" destination="Swx-Ir-DQW" id="IkX-r2-Mhe"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="navigationBackButton" destination="qYK-d3-R1a" id="miS-v7-vI5"/>
+                        <outlet property="navigationForwardButton" destination="0nj-dS-QXP" id="8PH-zb-j6e"/>
+                        <outlet property="webProgressBar" destination="ZA2-g5-Yji" id="yMj-jA-c5j"/>
+                        <outlet property="webView" destination="Jp5-Bv-tH0" id="0id-cA-Vbb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IJt-AK-bIl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1415.9420289855072" y="-189.50892857142856"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="WLT-zX-ahk">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tUP-MD-aPP" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="26J-D0-QBs">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Swx-Ir-DQW" kind="relationship" relationship="rootViewController" id="xx4-7i-nrE"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Stx-k2-0GY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="505.79710144927537" y="-189.50892857142856"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
