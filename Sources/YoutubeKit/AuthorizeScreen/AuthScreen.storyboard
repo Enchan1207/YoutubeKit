@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jp5-Bv-tH0">
-                                <rect key="frame" x="0.0" y="89.5" width="414" height="723.5"/>
+                                <rect key="frame" x="0.0" y="45.5" width="414" height="767.5"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
@@ -42,7 +42,7 @@
                                 </items>
                             </toolbar>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZA2-g5-Yji">
-                                <rect key="frame" x="0.0" y="88" width="414" height="2.5"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="2.5"/>
                             </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KQq-Dg-zkV"/>
@@ -89,9 +89,6 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Swx-Ir-DQW" kind="relationship" relationship="rootViewController" id="xx4-7i-nrE"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Stx-k2-0GY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
