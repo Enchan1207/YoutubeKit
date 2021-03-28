@@ -29,13 +29,13 @@
                                 <items>
                                     <barButtonItem enabled="NO" title="Item" image="chevron.left" catalog="system" id="qYK-d3-R1a">
                                         <connections>
-                                            <action selector="onTapBackButton:" destination="Swx-Ir-DQW" id="HWa-v0-nV9"/>
+                                            <action selector="onTapBackButton:" destination="Swx-Ir-DQW" id="3NX-tO-zJb"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="cCM-J7-Sze"/>
                                     <barButtonItem enabled="NO" title="Item" image="chevron.right" catalog="system" id="0nj-dS-QXP">
                                         <connections>
-                                            <action selector="onTapForwardButton:" destination="Swx-Ir-DQW" id="BVj-uM-C8t"/>
+                                            <action selector="onTapForwardButton:" destination="Swx-Ir-DQW" id="2FY-pM-0gB"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem systemItem="flexibleSpace" id="sYg-ZR-cVr"/>
@@ -64,15 +64,15 @@
                     <navigationItem key="navigationItem" id="dAG-Nw-K8E">
                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="G96-0g-Mwg">
                             <connections>
-                                <action selector="onTapCloseButton:" destination="Swx-Ir-DQW" id="IkX-r2-Mhe"/>
+                                <action selector="onTapCloseButton:" destination="Swx-Ir-DQW" id="7wn-O7-ogh"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="navigationBackButton" destination="qYK-d3-R1a" id="bwp-aG-kGB"/>
-                        <outlet property="navigationForwardButton" destination="0nj-dS-QXP" id="Dvy-4m-qOd"/>
-                        <outlet property="webProgressBar" destination="ZA2-g5-Yji" id="yMj-jA-c5j"/>
-                        <outlet property="webView" destination="Jp5-Bv-tH0" id="0id-cA-Vbb"/>
+                        <outlet property="navigationBackButton" destination="qYK-d3-R1a" id="RQj-ac-x2h"/>
+                        <outlet property="navigationForwardButton" destination="0nj-dS-QXP" id="v4t-Dg-e40"/>
+                        <outlet property="webProgressBar" destination="ZA2-g5-Yji" id="uhi-8R-vTr"/>
+                        <outlet property="webView" destination="Jp5-Bv-tH0" id="oC5-p9-iOH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IJt-AK-bIl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -90,7 +90,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Swx-Ir-DQW" kind="relationship" relationship="rootViewController" id="7Mp-nX-s9i"/>
+                        <segue destination="Swx-Ir-DQW" kind="relationship" relationship="rootViewController" id="h19-6W-gos"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Stx-k2-0GY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

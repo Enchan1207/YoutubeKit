@@ -25,14 +25,11 @@ public class AuthViewController: UIViewController {
     private var navigationGoForwardObservationToken: NSKeyValueObservation?
     private var hostnameObservationToken: NSKeyValueObservation?
     
-    
     // ui
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var webProgressBar: UIProgressView!
-    
     @IBOutlet weak var navigationBackButton: UIBarButtonItem!
     @IBOutlet weak var navigationForwardButton: UIBarButtonItem!
-    
     
     public override func viewDidLoad() {
         super.viewDidLoad()
