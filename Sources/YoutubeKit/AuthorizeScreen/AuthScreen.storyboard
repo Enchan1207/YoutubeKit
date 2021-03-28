@@ -97,7 +97,7 @@
             </objects>
             <point key="canvasLocation" x="505.79710144927537" y="-189.50892857142856"/>
         </scene>
-        <!--View Controller-->
+        <!--Navcon-->
         <scene sceneID="7eC-F8-cEp">
             <objects>
                 <viewController id="Dg6-pf-d2l" sceneMemberID="viewController">
@@ -120,7 +120,7 @@
                             <constraint firstItem="6UF-OV-exB" firstAttribute="centerX" secondItem="CjM-eD-koM" secondAttribute="centerX" id="u7r-OW-xuX"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="I5k-qP-fk4"/>
+                    <navigationItem key="navigationItem" title="Navcon" id="I5k-qP-fk4"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8U3-sE-sil" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
