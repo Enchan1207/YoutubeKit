@@ -38,7 +38,7 @@ public extension YoutubeKit {
         }
         
         guard let authViewController = navigationController.children.first as? AuthViewController else{
-            fatalError("generated viewcontroller is not type of AuthViewController.")
+            fatalError("generated viewcontroller is not type of AuthViewController. the children of navigation controller is: \(navigationController.children)")
         }
         
         // データを渡して
