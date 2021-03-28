@@ -91,7 +91,7 @@ public extension YoutubeKit {
             }
             self.accessCredential?.accessToken = responseJson.access_token
             if #available(iOS 13.0, *) {
-                self.accessCredential?.expires = Date().advanced(by: TimeInterval(responseJson.expires_in))
+                self.accessCredential?.expires = Date().addingTimeInterval(TimeInterval(responseJson.expires_in))
             } else {
                 self.accessCredential?.expires = Date().addingTimeInterval(TimeInterval(responseJson.expires_in))
             }

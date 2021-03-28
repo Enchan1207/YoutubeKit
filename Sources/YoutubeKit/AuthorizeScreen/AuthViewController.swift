@@ -240,7 +240,7 @@ extension AuthViewController: WKNavigationDelegate{
             // YoutubeKit.Credentialsのインスタンスをsuccessに載せて返す
             let credential: YoutubeKit.AccessCredential
             if #available(iOS 13.0, *) {
-                credential = YoutubeKit.AccessCredential(accessToken: responseBody.access_token, refreshToken: responseBody.refresh_token!, expires: Date().advanced(by: TimeInterval(responseBody.expires_in)), grantedScopes: scope)
+                credential = YoutubeKit.AccessCredential(accessToken: responseBody.access_token, refreshToken: responseBody.refresh_token!, expires: Date().addingTimeInterval(TimeInterval(responseBody.expires_in)), grantedScopes: scope)
             } else {
                 credential = YoutubeKit.AccessCredential(accessToken: responseBody.access_token, refreshToken: responseBody.refresh_token!, expires: Date().addingTimeInterval(TimeInterval(responseBody.expires_in)), grantedScopes: scope)
             }
