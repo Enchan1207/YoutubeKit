@@ -37,6 +37,7 @@ public extension YoutubeKit {
             fatalError("Couldn't instantiate authorize view controller.")
         }
         
+        /*
         guard let authViewController = navigationController.children.first as? AuthViewController else{
             fatalError("generated viewcontroller is not type of AuthViewController. the children of navigation controller is: \(navigationController.children)")
         }
@@ -48,6 +49,7 @@ public extension YoutubeKit {
         } failure: { (error) in
             failure(error)
         }
+        */
         
         // 表示
         presentViewController.present(navigationController, animated: true, completion: nil)
