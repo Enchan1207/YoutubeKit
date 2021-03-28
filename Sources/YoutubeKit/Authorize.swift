@@ -36,7 +36,6 @@ public extension YoutubeKit {
         guard let navigationController = storyboard.instantiateInitialViewController() else{
             fatalError("Couldn't instantiate authorize view controller.")
         }
-        print(navigationController)
         
         /*
         guard let authViewController = navigationController.children.first as? AuthViewController else{
