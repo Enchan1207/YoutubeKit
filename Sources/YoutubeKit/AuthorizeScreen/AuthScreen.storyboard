@@ -10,74 +10,74 @@
     </dependencies>
     <scenes>
         <!--Auth View Controller-->
-        <scene sceneID="iLl-co-WTQ">
+        <scene sceneID="het-Ov-VQT">
             <objects>
-                <viewController storyboardIdentifier="authorize_screen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Swx-Ir-DQW" customClass="AuthViewController" customModule="YoutubeKit" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Jpe-Cj-nHU">
+                <viewController id="J63-8T-OtC" customClass="AuthViewController" customModule="YoutubeKit" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="axk-eS-d1v">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jp5-Bv-tH0">
-                                <rect key="frame" x="0.0" y="89.5" width="414" height="723.5"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6jM-nV-yF8">
+                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
+                                <items>
+                                    <barButtonItem enabled="NO" image="chevron.left" catalog="system" id="vx8-aj-c3E">
+                                        <connections>
+                                            <action selector="onTapBackButton:" destination="J63-8T-OtC" id="7KZ-4W-8hV"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="ztE-6d-TwT"/>
+                                    <barButtonItem enabled="NO" image="chevron.right" catalog="system" id="yEF-Vy-BsY">
+                                        <connections>
+                                            <action selector="onTapForwardButton:" destination="J63-8T-OtC" id="gBj-g2-soE"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="x2y-qS-baP"/>
+                                </items>
+                            </toolbar>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="luo-kc-FzE">
+                                <rect key="frame" x="0.0" y="88" width="414" height="4"/>
+                            </progressView>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zRN-bt-P0A">
+                                <rect key="frame" x="0.0" y="92" width="414" height="721"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zVN-v1-vh6">
-                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
-                                <items>
-                                    <barButtonItem enabled="NO" title="Item" image="chevron.left" catalog="system" id="qYK-d3-R1a">
-                                        <connections>
-                                            <action selector="onTapBackButton:" destination="Swx-Ir-DQW" id="3NX-tO-zJb"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="cCM-J7-Sze"/>
-                                    <barButtonItem enabled="NO" title="Item" image="chevron.right" catalog="system" id="0nj-dS-QXP">
-                                        <connections>
-                                            <action selector="onTapForwardButton:" destination="Swx-Ir-DQW" id="2FY-pM-0gB"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem systemItem="flexibleSpace" id="sYg-ZR-cVr"/>
-                                </items>
-                            </toolbar>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZA2-g5-Yji">
-                                <rect key="frame" x="0.0" y="88" width="414" height="2.5"/>
-                            </progressView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="KQq-Dg-zkV"/>
+                        <viewLayoutGuide key="safeArea" id="RRt-3h-sKR"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="KQq-Dg-zkV" firstAttribute="trailing" secondItem="ZA2-g5-Yji" secondAttribute="trailing" id="12T-Bk-LDE"/>
-                            <constraint firstItem="zVN-v1-vh6" firstAttribute="top" secondItem="Jp5-Bv-tH0" secondAttribute="bottom" id="7Nj-nE-fCG"/>
-                            <constraint firstItem="Jp5-Bv-tH0" firstAttribute="leading" secondItem="KQq-Dg-zkV" secondAttribute="leading" id="7Rl-56-SYB"/>
-                            <constraint firstItem="Jp5-Bv-tH0" firstAttribute="top" secondItem="ZA2-g5-Yji" secondAttribute="bottom" id="Lm4-qZ-lwa"/>
-                            <constraint firstItem="ZA2-g5-Yji" firstAttribute="leading" secondItem="KQq-Dg-zkV" secondAttribute="leading" id="dhD-JS-eJh"/>
-                            <constraint firstItem="ZA2-g5-Yji" firstAttribute="top" secondItem="KQq-Dg-zkV" secondAttribute="top" id="f4b-Xw-Eia"/>
-                            <constraint firstItem="KQq-Dg-zkV" firstAttribute="bottom" secondItem="zVN-v1-vh6" secondAttribute="bottom" id="hkS-fK-Eja"/>
-                            <constraint firstItem="zVN-v1-vh6" firstAttribute="leading" secondItem="KQq-Dg-zkV" secondAttribute="leading" id="ivk-9D-62l"/>
-                            <constraint firstAttribute="trailing" secondItem="zVN-v1-vh6" secondAttribute="trailing" id="qcM-dm-IE8"/>
-                            <constraint firstItem="KQq-Dg-zkV" firstAttribute="trailing" secondItem="Jp5-Bv-tH0" secondAttribute="trailing" id="ssf-x0-CqG"/>
+                            <constraint firstItem="luo-kc-FzE" firstAttribute="leading" secondItem="RRt-3h-sKR" secondAttribute="leading" id="2Rn-40-6Rh"/>
+                            <constraint firstItem="RRt-3h-sKR" firstAttribute="trailing" secondItem="luo-kc-FzE" secondAttribute="trailing" id="3h7-Xs-GEQ"/>
+                            <constraint firstItem="zRN-bt-P0A" firstAttribute="leading" secondItem="RRt-3h-sKR" secondAttribute="leading" id="AUG-Er-6UX"/>
+                            <constraint firstItem="luo-kc-FzE" firstAttribute="top" secondItem="RRt-3h-sKR" secondAttribute="top" id="WtN-Nw-Z6g"/>
+                            <constraint firstAttribute="trailing" secondItem="6jM-nV-yF8" secondAttribute="trailing" id="X7V-gN-CMp"/>
+                            <constraint firstItem="6jM-nV-yF8" firstAttribute="top" secondItem="zRN-bt-P0A" secondAttribute="bottom" id="jU8-oN-dCX"/>
+                            <constraint firstItem="RRt-3h-sKR" firstAttribute="trailing" secondItem="zRN-bt-P0A" secondAttribute="trailing" id="syG-Fq-ZJZ"/>
+                            <constraint firstItem="6jM-nV-yF8" firstAttribute="leading" secondItem="RRt-3h-sKR" secondAttribute="leading" id="tES-2B-xjI"/>
+                            <constraint firstItem="RRt-3h-sKR" firstAttribute="bottom" secondItem="6jM-nV-yF8" secondAttribute="bottom" id="uWR-JS-ilk"/>
+                            <constraint firstItem="zRN-bt-P0A" firstAttribute="top" secondItem="luo-kc-FzE" secondAttribute="bottom" id="yDl-xo-3mc"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="dAG-Nw-K8E">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="G96-0g-Mwg">
+                    <navigationItem key="navigationItem" id="0kC-lV-obH">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="kQn-1C-UtP">
                             <connections>
-                                <action selector="onTapCloseButton:" destination="Swx-Ir-DQW" id="7wn-O7-ogh"/>
+                                <action selector="onTapCloseButton:" destination="J63-8T-OtC" id="WSH-oM-2en"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="navigationBackButton" destination="qYK-d3-R1a" id="RQj-ac-x2h"/>
-                        <outlet property="navigationForwardButton" destination="0nj-dS-QXP" id="v4t-Dg-e40"/>
-                        <outlet property="webProgressBar" destination="ZA2-g5-Yji" id="uhi-8R-vTr"/>
-                        <outlet property="webView" destination="Jp5-Bv-tH0" id="oC5-p9-iOH"/>
+                        <outlet property="navigationBackButton" destination="vx8-aj-c3E" id="Utw-VK-VKA"/>
+                        <outlet property="navigationForwardButton" destination="yEF-Vy-BsY" id="ww5-H8-pe1"/>
+                        <outlet property="webProgressBar" destination="luo-kc-FzE" id="3Cd-0k-gVK"/>
+                        <outlet property="webView" destination="zRN-bt-P0A" id="XYZ-r4-HAa"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IJt-AK-bIl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UoZ-a6-tor" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1415.9420289855072" y="-189.50892857142856"/>
+            <point key="canvasLocation" x="1423" y="-190"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="WLT-zX-ahk">
@@ -90,7 +90,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Swx-Ir-DQW" kind="relationship" relationship="rootViewController" id="h19-6W-gos"/>
+                        <segue destination="J63-8T-OtC" kind="relationship" relationship="rootViewController" id="dTB-rh-aeg"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Stx-k2-0GY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
