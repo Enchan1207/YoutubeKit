@@ -21,7 +21,7 @@ public extension YoutubeKit {
                     success: @escaping SuccessCallback<YoutubeKit.AccessCredential>, failure: @escaping FailCallback){
         
         // Storyboardから認証画面を生成
-        let storyboard = UIStoryboard(name: "AuthScreen", bundle: Bundle(for: Self.self))
+        let storyboard = UIStoryboard(name: "AuthScreen", bundle: Bundle(for: YoutubeKit.self))
         guard let navigationController = storyboard.instantiateInitialViewController(),
               let authViewController = navigationController.children.first as? AuthViewController else{
             fatalError("Couldn't instantiate authorize view controller.")
