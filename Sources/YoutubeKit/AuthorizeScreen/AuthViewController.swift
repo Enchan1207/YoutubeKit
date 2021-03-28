@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class AuthViewController: UIViewController {
+public class AuthViewController: UIViewController {
     
     // credentials
     private var apiCredential: YoutubeKit.APICredential? = nil
@@ -33,7 +33,7 @@ class AuthViewController: UIViewController {
     @IBOutlet weak var navigationForwardButton: UIBarButtonItem!
     
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         // webview初期化
@@ -65,7 +65,7 @@ class AuthViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         
         // 認証URLを生成して読み込み開始
         if(!self.isLoaded){
@@ -118,7 +118,7 @@ class AuthViewController: UIViewController {
 extension AuthViewController: WKNavigationDelegate{
     
     // エラーハンドリング
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+    public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         // プログレスバーを左端に戻して
         UIView.animate(withDuration: 0.5) {
             self.webProgressBar.alpha = 0
@@ -136,7 +136,7 @@ extension AuthViewController: WKNavigationDelegate{
     }
     
     // document.onload
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         // プログレスバーを左端に戻す
         UIView.animate(withDuration: 0.5) {
@@ -194,7 +194,7 @@ extension AuthViewController: WKNavigationDelegate{
     ///     - code: authorization code.
     ///     - scope: scopes that was granted by user.
     ///     - completion: completion callback.
-    func generateAccessToken(code: String, scope: [YoutubeKit.Scope], completion: ((_ credential: YoutubeKit.AccessCredential?, _ error: YoutubeKit.AuthError?) -> Void)?){
+    public func generateAccessToken(code: String, scope: [YoutubeKit.Scope], completion: ((_ credential: YoutubeKit.AccessCredential?, _ error: YoutubeKit.AuthError?) -> Void)?){
         let query = [
             "code": code,
             "client_id": self.apiCredential!.clientID,
