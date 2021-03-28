@@ -52,7 +52,7 @@ public extension YoutubeKit {
         */
         
         // 表示
-        presentViewController.view.window?.rootViewController?.present(navigationController, animated: true, completion: nil)
+        presentViewController.present(navigationController, animated: true, completion: nil)
     }
     
     /// refresh access token.
