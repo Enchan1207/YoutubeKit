@@ -20,8 +20,19 @@ public extension YoutubeKit {
                     scope: [YoutubeKit.Scope],
                     success: @escaping SuccessCallback<YoutubeKit.AccessCredential>, failure: @escaping FailCallback){
         
+        
+        // 取得先BundleはSPMとそうでない場合とで異なる(らしい)
+        // cf. https://developer.apple.com/documentation/swift_packages/bundling_resources_with_a_swift_package
+        // cf. https://qiita.com/kazuhiro4949/items/0378e163fa00a79eb00a
+        let bundle: Bundle
+        #if SWIFT_PACKAGE
+        bundle = Bundle.module
+        #else
+        bundle = Bundle(for: type(of: self))
+        #endif
+        
         // Storyboardから認証画面を生成
-        let storyboard = UIStoryboard(name: "AuthScreen", bundle: Bundle(for: type(of: self)))
+        let storyboard = UIStoryboard(name: "AuthScreen", bundle: bundle)
         guard let navigationController = storyboard.instantiateInitialViewController(),
               let authViewController = navigationController.children.first as? AuthViewController else{
             fatalError("Couldn't instantiate authorize view controller.")
