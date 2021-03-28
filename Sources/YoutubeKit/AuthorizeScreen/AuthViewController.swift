@@ -29,6 +29,7 @@ public class AuthViewController: UIViewController {
     // ui
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var webProgressBar: UIProgressView!
+    
     @IBOutlet weak var navigationBackButton: UIBarButtonItem!
     @IBOutlet weak var navigationForwardButton: UIBarButtonItem!
     
@@ -100,7 +101,7 @@ public class AuthViewController: UIViewController {
         self.successCallback = success
         self.failureCallback = failure
     }
-
+    
     @IBAction func onTapBackButton(_ sender: UIBarButtonItem) {
         self.webView.goBack()
     }

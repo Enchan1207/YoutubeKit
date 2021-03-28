@@ -69,8 +69,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="navigationBackButton" destination="qYK-d3-R1a" id="miS-v7-vI5"/>
-                        <outlet property="navigationForwardButton" destination="0nj-dS-QXP" id="8PH-zb-j6e"/>
+                        <outlet property="navigationBackButton" destination="qYK-d3-R1a" id="bwp-aG-kGB"/>
+                        <outlet property="navigationForwardButton" destination="0nj-dS-QXP" id="Dvy-4m-qOd"/>
                         <outlet property="webProgressBar" destination="ZA2-g5-Yji" id="yMj-jA-c5j"/>
                         <outlet property="webView" destination="Jp5-Bv-tH0" id="0id-cA-Vbb"/>
                     </connections>
