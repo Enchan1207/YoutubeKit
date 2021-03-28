@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tUP-MD-aPP">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -11,7 +12,7 @@
         <!--Auth View Controller-->
         <scene sceneID="iLl-co-WTQ">
             <objects>
-                <viewController id="Swx-Ir-DQW" customClass="AuthViewController" customModule="YoutubeKit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="authorize_screen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Swx-Ir-DQW" customClass="AuthViewController" customModule="YoutubeKit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Jpe-Cj-nHU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

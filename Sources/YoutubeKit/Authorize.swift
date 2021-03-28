@@ -37,6 +37,9 @@ public extension YoutubeKit {
             fatalError("Couldn't instantiate authorize view controller.")
         }
         
+        let authVC = storyboard.instantiateViewController(withIdentifier: "authorize_screen")
+        print(authVC)
+        
         guard let authViewController = navigationController.children.first as? AuthViewController else{
             fatalError("generated viewcontroller is not type of AuthViewController. the children of navigation controller is: \(navigationController.children)")
         }
