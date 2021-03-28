@@ -33,9 +33,12 @@ public extension YoutubeKit {
         
         // Storyboardから認証画面を生成
         let storyboard = UIStoryboard(name: "AuthScreen", bundle: bundle)
-        guard let navigationController = storyboard.instantiateInitialViewController(),
-              let authViewController = navigationController.children.first as? AuthViewController else{
+        guard let navigationController = storyboard.instantiateInitialViewController() else{
             fatalError("Couldn't instantiate authorize view controller.")
+        }
+        
+        guard let authViewController = navigationController.children.first as? AuthViewController else{
+            fatalError("generated viewcontroller is not type of AuthViewController.")
         }
         
         // データを渡して
