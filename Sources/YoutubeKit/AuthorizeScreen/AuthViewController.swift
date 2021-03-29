@@ -174,14 +174,20 @@ extension AuthViewController: WKNavigationDelegate{
             
             // 生成!
             self.generateAccessToken(code: code, scope: grantedScopes ?? []) { (credential, error) in
-                if let error = error {
-                    self.failureCallback?(error)
-                }
-                if let credential = credential {
-                    self.successCallback?(credential)
-                }
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: nil)
+                DispatchQueue.main.async { [weak self] in
+                    guard let `self` = self else {return}
+                    
+                    // 閉じてからじゃないと色々困る
+                    self.dismiss(animated: true) {
+                        if let error = error {
+                            self.failureCallback?(error)
+                            return
+                        }
+                        if let credential = credential {
+                            self.successCallback?(credential)
+                            return
+                        }
+                    }
                 }
             }
         }
