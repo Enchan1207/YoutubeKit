@@ -25,6 +25,9 @@ public extension YoutubeKit{
         case suggestions
         case topicDetails
         
+        case invideoPromotion
+        case brandingSettings
+        
         case other(String)
         
         public init(rawValue: String) {
