@@ -28,11 +28,12 @@ public extension YoutubeKit {
         
         // パラメータ挿入
         var queryItems: [String: Any] = [:]
-        let part: [YoutubeKit.Part] = [.id, .snippet, .brandingSettings, .contentDetails, .invideoPromotion, .statistics, .topicDetails]
+        let part: [YoutubeKit.Part] = [.id, .snippet, .contentDetails, .statistics, .topicDetails]
         queryItems["part"] = part.map({$0.rawValue}).joined(separator: ",")
         queryItems["categoryId"] = categoryId
         queryItems["forUsername"] = forUsername
         queryItems["id"] = id?.joined(separator: ",")
+        queryItems["mine"] = mine
         queryItems["maxResults"] = maxResults
         queryItems["pageToken"] = pageToken
         
@@ -40,7 +41,6 @@ public extension YoutubeKit {
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/channels")!, method: .GET,  queryItems: queryItems)
         
         sendRequestWithAutoUpdate(config: config, success: { (response) in
-            print(response)
             guard let playlists = CollectionResource<ChannelResource>.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize playlist items"))
                 return
