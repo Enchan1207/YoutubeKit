@@ -90,7 +90,7 @@ final class YoutubeKitTests: XCTestCase {
     func testGetCommentThread() throws {
         let sema = DispatchSemaphore(value: 0)
         var error: Error? = nil
-        self.youtube.getCommentThread(videoId: "YOe1UQ738Hc", maxResults: 100, order: .relevance, textFormat: .plainText) { (result) in
+        self.youtube.getCommentThread(videoId: "CXHuBvvrlsw", maxResults: 100, order: .relevance, textFormat: .plainText) { (result) in
             let threads = result.items
             for thread in threads{
                 print(thread.serialize()!)

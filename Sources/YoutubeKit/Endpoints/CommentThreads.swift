@@ -43,7 +43,6 @@ public extension YoutubeKit{
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/commentThreads")!, method: .GET,  queryItems: queryItems)
         
         sendRequestWithAutoUpdate(config: config, injectToken: false, success: { (response) in
-            print(response)
             guard let playlists = CollectionResource<CommentThreadResource>.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize comment-thread items"))
                 return
