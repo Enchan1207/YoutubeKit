@@ -103,11 +103,11 @@ public extension YoutubeKit {
     
     /// Delete existing playlist.
     /// (cf. https://developers.google.com/youtube/v3/docs/playlists/delete?hl=ja)
-    func deletePlaylist(target: PlaylistResource,
+    func deletePlaylist(id: String,
                         success: @escaping SuccessCallback<Void?>, failure: @escaping FailCallback){
         // パラメータ挿入
         var queryItems: [String: Any] = [:]
-        queryItems["id"] = target.id
+        queryItems["id"] = id
         
         // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/playlists")!, method: .DELETE, queryItems: queryItems)
