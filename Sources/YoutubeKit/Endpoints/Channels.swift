@@ -11,8 +11,7 @@ import Foundation
 public extension YoutubeKit {
     
     /// Get channel.
-    ///  - Parameters:
-    ///     -
+    /// (cf. https://developers.google.com/youtube/v3/docs/channels/list?hl=ja)
     func getChannel(mine: Bool? = nil,
                     id: [String]? = nil,
                     forUsername: String? = nil,
@@ -46,6 +45,33 @@ public extension YoutubeKit {
                 return
             }
             success(playlists)
+        }, failure: failure)
+    }
+    
+    /// Update channel.
+    /// (cf. https://developers.google.com/youtube/v3/docs/channels/update?hl=ja)
+    /// **WARNING: FrameworkがinvideoPromotionに対応していないので実質動きません**
+    func updateChannel(target: ChannelResource,
+                       success: @escaping SuccessCallback<ChannelResource>, failure: @escaping FailCallback) {
+        // パラメータ挿入
+        var queryItems: [String: Any] = [:]
+        let part: [YoutubeKit.Part] = [.id]
+        queryItems["part"] = part.map({$0.rawValue}).joined(separator: ",")
+        
+        // ヘッダ,リクエストボディ設定
+        let requestHeader:[String: String] = [
+            "Content-Type": "application/json"
+        ]
+        
+        // configに値を設定してリクエスト
+        let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/channels")!, method: .PUT, requestHeader: requestHeader, requestBody: target.serialize()!.data(using: .utf8), queryItems: queryItems)
+        
+        sendRequestWithAutoUpdate(config: config, success: { (response) in
+            guard let playlist = ChannelResource.deserialize(object: response)else {
+                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize channel"))
+                return
+            }
+            success(playlist)
         }, failure: failure)
     }
     
