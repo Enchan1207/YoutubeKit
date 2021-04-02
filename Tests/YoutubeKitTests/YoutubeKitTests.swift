@@ -28,24 +28,20 @@ final class YoutubeKitTests: XCTestCase {
     // アクセストークン更新
     func updateAccessToken() throws{
         let sema = DispatchSemaphore(value: 0)
-        var isSucceeded: Bool = false
+        var error: Error? = nil
 
         self.youtube.updateToken(success: { (credential) in
             print(credential)
-            isSucceeded = true
             sema.signal()
-        }, failure: { (error) in
-            print(error)
-            isSucceeded = false
+        }, failure: { (_error) in
+            error = _error
             sema.signal()
         })
         sema.wait()
         
-        if isSucceeded == nil{
-            throw YoutubeKit.AuthError.invalidCredential
-        }
+        guard error != nil else {return}
+        throw error!
     }
-    
     
     /// Channelsエンドポイントのテスト
     func testGetChannel() throws{
