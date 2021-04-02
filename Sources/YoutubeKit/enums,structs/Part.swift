@@ -24,6 +24,7 @@ public extension YoutubeKit{
         case statistics
         case suggestions
         case topicDetails
+        case replies
         
         case other(String)
         

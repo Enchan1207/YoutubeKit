@@ -36,7 +36,7 @@ public extension YoutubeKit{
         // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/comments")!, method: .GET,  queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, injectToken: false, success: { (response) in
             guard let playlists = CollectionResource<CommentResource>.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize comment items"))
                 return
@@ -63,7 +63,7 @@ public extension YoutubeKit{
         // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/comments")!, method: .POST, requestHeader: requestHeader, requestBody: new.serialize()!.data(using: .utf8), queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, injectToken: false, success: { (response) in
             guard let playlistItem = CommentResource.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize comment item"))
                 return
@@ -89,7 +89,7 @@ public extension YoutubeKit{
         // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/comments")!, method: .PUT, requestHeader: requestHeader, requestBody: new.serialize()!.data(using: .utf8), queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, injectToken: false, success: { (response) in
             guard let playlistItem = CommentResource.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize comment item"))
                 return
@@ -125,7 +125,7 @@ public extension YoutubeKit{
         // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/comments")!, method: .DELETE, queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, injectToken: false, success: { (response) in
             success(nil)
         }, failure: failure)
     }

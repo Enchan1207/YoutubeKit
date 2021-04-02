@@ -8,7 +8,7 @@
 import Foundation
 
 public struct CommentResource: Serializable {
-    public let id: String?
+    public let id: String
 
     public struct Snippet: Codable{
         public let authorDisplayName: String?
@@ -25,7 +25,7 @@ public struct CommentResource: Serializable {
         public let parentId: String?
         public let canRate: Bool?
         public let viewerRating: String?
-        public let likeCount: String?
+        public let likeCount: UInt?
         public let moderationStatus: String?
         public let publishedAt: String?
         public let updatedAt: String?

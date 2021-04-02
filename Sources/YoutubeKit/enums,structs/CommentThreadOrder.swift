@@ -1,5 +1,5 @@
 //
-//  TextFormat.swift
+//  CommentThreadOrder.swift
 //  
 //
 //  Created by EnchantCode on 2021/04/02.
@@ -8,8 +8,8 @@
 import Foundation
 
 public extension YoutubeKit{
-    enum TextFormat: String{
-        case html
-        case plainText
+    enum CommentThreadOrder: String{
+        case time
+        case relevance
     }
 }

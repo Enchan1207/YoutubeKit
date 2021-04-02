@@ -14,11 +14,18 @@ public extension YoutubeKit{
     ///     - config: request configuration
     ///     - success: success callback
     ///     - failure: fairule callback
-    func sendRequest(config _config: RequestConfig, success: @escaping SuccessCallback<String>, failure: @escaping FailCallback){
-        // アクセストークンをヘッダに挿入
+    func sendRequest(config _config: RequestConfig,
+                     injectToken: Bool = true,
+                     success: @escaping SuccessCallback<String>, failure: @escaping FailCallback){
+        
         var config = _config
-        if let accessCredential = self.accessCredential {
-            config.requestHeader["Authorization"] = "Bearer \(accessCredential.accessToken)"
+        
+        // injectTokenがfalseでなければ
+        if injectToken{
+            // アクセストークンをヘッダに挿入
+            if let accessCredential = self.accessCredential {
+                config.requestHeader["Authorization"] = "Bearer \(accessCredential.accessToken)"
+            }
         }
         
         // APIキー自動挿入
@@ -49,7 +56,7 @@ public extension YoutubeKit{
                 failure(YoutubeKit.APIError.networkError(response.statusCode, responseBody))
                 return
             }
-
+            
             success(responseBody)
         }.resume()
     }
@@ -59,7 +66,9 @@ public extension YoutubeKit{
     ///     - config: request configuration
     ///     - success: success callback
     ///     - failure: fairule callback
-    func sendRequestWithAutoUpdate(config _config: RequestConfig, success: @escaping SuccessCallback<String>, failure: @escaping FailCallback){
+    func sendRequestWithAutoUpdate(config _config: RequestConfig,
+                                   injectToken: Bool = true,
+                                   success: @escaping SuccessCallback<String>, failure: @escaping FailCallback){
         // ログインしていなければ飛ばす
         guard let accessCredential = self.accessCredential else{
             failure(YoutubeKit.AuthError.loginRequired)
@@ -73,7 +82,7 @@ public extension YoutubeKit{
                 self.sendRequest(config: _config, success: success, failure: failure)
             }, failure: failure)
         }else{
-            self.sendRequest(config: _config, success: success, failure: failure)
+            self.sendRequest(config: _config, injectToken: injectToken, success: success, failure: failure)
         }
     }
     
