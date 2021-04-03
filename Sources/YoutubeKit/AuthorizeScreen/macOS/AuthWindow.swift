@@ -5,4 +5,11 @@
 //  Created by EnchantCode on 2021/04/03.
 //
 
-import Foundation
+#if os(OSX)
+import Cocoa
+
+open class AuthWindow: NSWindow{
+    
+}
+
+#endif

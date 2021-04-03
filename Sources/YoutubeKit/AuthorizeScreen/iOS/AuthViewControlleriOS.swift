@@ -10,7 +10,7 @@
 import UIKit
 import WebKit
 
-class AuthViewController: UIViewController {
+open class AuthViewControlleriOS: UIViewController {
     
     // MARK: - properties
     
@@ -54,13 +54,13 @@ class AuthViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("\(#function) in \(#file) has not been implemented!")
     }
     
     // MARK: - view lifecycle
     
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         
         //
@@ -86,7 +86,7 @@ class AuthViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         // 認証URLを生成して読み込み開始
         if(!self.isLoaded){
             let config = RequestConfig(
@@ -215,7 +215,7 @@ class AuthViewController: UIViewController {
     
 }
 
-extension AuthViewController: WKNavigationDelegate{
+extension AuthViewControlleriOS: WKNavigationDelegate{
     
     // エラーハンドリング
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {

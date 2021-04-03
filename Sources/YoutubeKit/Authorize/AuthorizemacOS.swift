@@ -5,25 +5,25 @@
 //  Created by EnchantCode on 2021/03/22.
 //
 
-#if os(macOS)
+#if os(OSX)
 import Cocoa
 
 public extension YoutubeKit {
     
     /// Authorize user and generate token.
     ///  - Parameters:
-    ///    - presentViewController: viewcontroller that shows authorization screen.
     ///    - scope: scopes that app requires from user
     ///    - success: callback when authorization succeeded.
     ///    - failure: callback when authorization failed.
     @available(macOS 10.13, *)
-    func authorize (presentViewController: NSViewController,
-                    scope: [YoutubeKit.Scope],
+    func authorize (scope: [YoutubeKit.Scope],
                     success: @escaping SuccessCallback<YoutubeKit.AccessCredential>, failure: @escaping FailCallback){
         
-        // MARK: TODO macOS版authorize()
-        fatalError("\(#function) is not implemented!")
+        let authViewController = NSViewController()
+//        authViewController.configure
+        let window = AuthWindow()
         
+        window.makeKeyAndOrderFront(self)
     }
 
 }

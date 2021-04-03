@@ -9,16 +9,16 @@
 
 import UIKit
 
-class AuthNavigationController: UINavigationController {
+open class AuthNavigationController: UINavigationController {
     
-    private var authViewController: AuthViewController!
+    private var authViewController: AuthViewControlleriOS!
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("\(#file): \(#function) is not implemented!!")
     }
     
     init(){
-        self.authViewController = AuthViewController()
+        self.authViewController = AuthViewControlleriOS()
         super.init(rootViewController: self.authViewController)
     }
 }

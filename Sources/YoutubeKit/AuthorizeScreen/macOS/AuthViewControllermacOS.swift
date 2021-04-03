@@ -9,11 +9,23 @@
 
 import Cocoa
 
-class AuthViewController: NSViewController {
+open class AuthViewControllermacOS: NSViewController {
+
+    // MARK: - initializers
     
-    override func viewDidLoad() {
+    init(){
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    public required init?(coder: NSCoder) {
+        fatalError("\(#function) is not implemeted!")
+    }
+    
+    // MARK: - view lifecycle
+    
+    override open func viewDidLoad() {
         super.viewDidLoad()
-        print("ん?")
+        
     }
 }
 

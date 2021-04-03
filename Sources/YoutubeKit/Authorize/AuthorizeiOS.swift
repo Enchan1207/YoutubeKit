@@ -24,7 +24,7 @@ public extension YoutubeKit {
         
         // AuthViewControllerを生成
         let authNavigationController = AuthNavigationController()
-        let authViewController = authNavigationController.children.first as! AuthViewController
+        let authViewController = authNavigationController.children.first as! AuthViewControlleriOS
 
         // データを渡して
         authViewController.configure(apiCredential: self.apiCredential, scope: scope) { (credential) in
