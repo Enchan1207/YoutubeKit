@@ -1,8 +1,8 @@
 //
-//  AuthViewController.swift
-//  YoutubeKit
+//  AuthVCExt.swift - AuthViewController
+//  
 //
-//  Created by EnchantCode on 2021/03/22.
+//  Created by EnchantCode on 2021/04/03.
 //
 
 #if os(iOS)
@@ -10,7 +10,9 @@
 import UIKit
 import WebKit
 
-public class AuthViewController: UIViewController {
+class AuthViewController: UIViewController {
+    
+    // MARK: - properties
     
     // credentials
     private var apiCredential: YoutubeKit.APICredential? = nil
@@ -20,33 +22,114 @@ public class AuthViewController: UIViewController {
     private var successCallback: ((_ credential: YoutubeKit.AccessCredential) -> Void)?
     private var failureCallback: ((_ error: YoutubeKit.AuthError) -> Void)?
     
-    // webview
-    private var isLoaded: Bool = false
-    private var estimatedProgressObservationToken: NSKeyValueObservation?
-    private var navigationGoBackObservationToken: NSKeyValueObservation?
-    private var navigationGoForwardObservationToken: NSKeyValueObservation?
-    private var hostnameObservationToken: NSKeyValueObservation?
+    // MARK: - UI components
     
-    // ui
-    @IBOutlet weak var webView: WKWebView!
-    @IBOutlet weak var webProgressBar: UIProgressView!
-    @IBOutlet weak var navigationBackButton: UIBarButtonItem!
-    @IBOutlet weak var navigationForwardButton: UIBarButtonItem!
+    // components
+    private let webView: WKWebView!
+    private let toolBar: UIToolbar!
+    private let progressBar: UIProgressView!
     
-    public override func viewDidLoad() {
+    private var navigationBackButton: UIBarButtonItem!
+    private var navigationForwardButton: UIBarButtonItem!
+    
+    // observation token
+    private var hostnameObservationToken: NSKeyValueObservation!
+    private var progressObservationToken: NSKeyValueObservation!
+    private var navigationGoBackObservationToken: NSKeyValueObservation!
+    private var navigationGoForwardObservationToken: NSKeyValueObservation!
+    
+    // MARK: - initializers
+    
+    init() {
+        // init ui parts
+        self.webView = .init()
+        self.toolBar = .init(frame: CGRect(x: 0,y: 0,width: 100, height: 100)) // why?
+        self.progressBar = .init()
+        
+        self.navigationBackButton = .init()
+        self.navigationForwardButton = .init()
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("\(#function) in \(#file) has not been implemented!")
+    }
+    
+    // MARK: - view lifecycle
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        // webview初期化
-        webView.customUserAgent = "Mozilla/5.0 (iPhone; iPhone like Mac OS X) AppleWebKit (KHTML, like Gecko) Safari"
-        webView.navigationDelegate = self
+        // componentsを追加して
+        self.view.addSubview(webView)
+        self.view.addSubview(toolBar)
+        self.view.addSubview(progressBar)
         
-        // observer設定
+        // Autolayout
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        toolBar.translatesAutoresizingMaskIntoConstraints = false
+        progressBar.translatesAutoresizingMaskIntoConstraints = false
         
-        // プログレスバー更新
-        self.estimatedProgressObservationToken = webView.observe(\.estimatedProgress) { (webView, change) in
-            let progress = webView.estimatedProgress
-            self.webProgressBar.alpha = 1
-            self.webProgressBar.setProgress(Float(progress), animated: true)
+        // progressbar
+        progressBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        progressBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        progressBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        // webview
+        webView.topAnchor.constraint(equalTo: progressBar.topAnchor).isActive = true
+        webView.bottomAnchor.constraint(equalTo: toolBar.topAnchor).isActive = true
+        webView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        webView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        // toolbar
+        toolBar.topAnchor.constraint(equalTo: webView.bottomAnchor).isActive = true
+        toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        toolBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        toolBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        // toolbar設定
+        let fixedItem: UIBarButtonItem = .init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        fixedItem.width = 42.0
+        
+        // UIImage(systemName:)はiOS13以降しか対応していない
+        if #available(iOS 13.0, *) {
+            let leftButtonImage = UIImage(systemName: "chevron.left")
+            let rightButtonImage = UIImage(systemName: "chevron.right")!
+            self.navigationBackButton = .init(image: leftButtonImage, landscapeImagePhone: leftButtonImage, style: .plain, target: self, action: #selector(onTapGoBack(_:)))
+            self.navigationForwardButton = .init(image: rightButtonImage, landscapeImagePhone: rightButtonImage, style: .plain, target: self, action: #selector(onTapGoForward(_:)))
+        } else {
+            self.navigationBackButton = .init(title: "back", style: .plain, target: self, action: #selector(onTapGoBack(_:)))
+            self.navigationForwardButton = .init(title: "forward", style: .plain, target: self, action: #selector(onTapGoForward(_:)))
+        }
+        
+        // toolbarにボタンを追加
+        toolBar.items = [
+            self.navigationBackButton,
+            fixedItem,
+            self.navigationForwardButton,
+            .init(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+        ]
+        
+        if #available(iOS 13.0, *) {
+            toolBar.backgroundColor = .systemBackground
+        } else {
+            toolBar.backgroundColor = .init(white: 1.0, alpha: 0.85)
+        }
+        
+        // progressbar設定
+        progressBar.progressViewStyle = .bar
+        
+        // webview設定
+        let doneButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(onTapDone(_:)))
+        navigationItem.leftBarButtonItem = doneButtonItem
+        hostnameObservationToken = webView.observe(\.title) { (object, change) in
+            self.title = self.webView.title
+        }
+        self.webView.navigationDelegate = self
+        
+        self.progressObservationToken = webView.observe(\.estimatedProgress) { (object, change) in
+            self.progressBar.progress = Float(self.webView.estimatedProgress)
         }
         
         // Can we go back
@@ -56,34 +139,30 @@ public class AuthViewController: UIViewController {
         
         // Can we go forward
         self.navigationGoForwardObservationToken = webView.observe(\.canGoForward) { (object, change) in
-            self.navigationBackButton.isEnabled = self.webView.canGoForward
+            self.navigationForwardButton.isEnabled = self.webView.canGoForward
         }
         
-        // ホスト名
-        self.hostnameObservationToken = webView.observe(\.title) { (object, change) in
-            self.title = self.webView.title
-        }
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
-        
-        // 認証URLを生成して読み込み開始
-        if(!self.isLoaded){
-            let config = RequestConfig(
-                url: URL(string: "https://accounts.google.com/o/oauth2/auth")!,
-                method: .GET,
-                queryItems: [
-                    "key": self.apiCredential!.APIKey,
-                    "client_id": self.apiCredential!.clientID,
-                    "redirect_uri": "urn:ietf:wg:oauth:2.0:oob",
-                    "response_type": "code",
-                    "scope": self.scope.map({$0.rawValue}).joined(separator: " "),
-                    "access_type": "offline"
-                ])
-            webView.load(config.createURLRequest())
-            self.isLoaded = true
-        }
+    // MARK: - view events
+    
+    // "Done"
+    @objc func onTapDone(_ sender: UIBarButtonItem){
+        self.dismiss(animated: true, completion: nil)
     }
+    
+    // "Back"
+    @objc func onTapGoBack(_ sender: UIBarButtonItem){
+        self.webView.goBack()
+    }
+    
+    // "Forward"
+    @objc func onTapGoForward(_ sender: UIBarButtonItem){
+        self.webView.goForward()
+        
+    }
+    
+    // MARK: - configure methods
     
     /// Inject credentials from other class.
     /// - Parameters:
@@ -101,18 +180,6 @@ public class AuthViewController: UIViewController {
         self.failureCallback = failure
     }
     
-    @IBAction func onTapBackButton(_ sender: UIBarButtonItem) {
-        self.webView.goBack()
-    }
-    
-    @IBAction func onTapForwardButton(_ sender: UIBarButtonItem) {
-        self.webView.goForward()
-    }
-    
-    @IBAction func onTapCloseButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
 }
 
 extension AuthViewController: WKNavigationDelegate{
@@ -121,9 +188,9 @@ extension AuthViewController: WKNavigationDelegate{
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         // プログレスバーを左端に戻して
         UIView.animate(withDuration: 0.5) {
-            self.webProgressBar.alpha = 0
+            self.progressBar.alpha = 0
         } completion: { (finished) in
-            self.webProgressBar.setProgress(0, animated: true)
+            self.progressBar.setProgress(0, animated: true)
         }
         
         // alert
@@ -140,9 +207,9 @@ extension AuthViewController: WKNavigationDelegate{
         
         // プログレスバーを左端に戻す
         UIView.animate(withDuration: 0.5) {
-            self.webProgressBar.alpha = 0
+            self.progressBar.alpha = 0
         } completion: { (finished) in
-            self.webProgressBar.setProgress(0, animated: true)
+            self.progressBar.setProgress(0, animated: true)
         }
         
         // 「認証」または「キャンセル」が押されたとき
