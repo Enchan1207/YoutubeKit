@@ -22,6 +22,8 @@ class AuthViewController: UIViewController {
     private var successCallback: ((_ credential: YoutubeKit.AccessCredential) -> Void)?
     private var failureCallback: ((_ error: YoutubeKit.AuthError) -> Void)?
     
+    private var isLoaded: Bool = false
+    
     // MARK: - UI components
     
     // components
@@ -43,7 +45,7 @@ class AuthViewController: UIViewController {
     init() {
         // init ui parts
         self.webView = .init()
-        self.toolBar = .init(frame: CGRect(x: 0,y: 0,width: 100, height: 100)) // why?
+        self.toolBar = .init(frame: CGRect(x: 0,y: 0, width: 100, height: 100)) // why?
         self.progressBar = .init()
         
         self.navigationBackButton = .init()
@@ -61,72 +63,13 @@ class AuthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // componentsを追加して
-        self.view.addSubview(webView)
-        self.view.addSubview(toolBar)
-        self.view.addSubview(progressBar)
+        //
+        setupView()
+        setupAutoLayout()
         
-        // Autolayout
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        toolBar.translatesAutoresizingMaskIntoConstraints = false
-        progressBar.translatesAutoresizingMaskIntoConstraints = false
-        
-        // progressbar
-        progressBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        progressBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        progressBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        
-        // webview
-        webView.topAnchor.constraint(equalTo: progressBar.topAnchor).isActive = true
-        webView.bottomAnchor.constraint(equalTo: toolBar.topAnchor).isActive = true
-        webView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        webView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        
-        // toolbar
-        toolBar.topAnchor.constraint(equalTo: webView.bottomAnchor).isActive = true
-        toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        toolBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        toolBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        
-        // toolbar設定
-        let fixedItem: UIBarButtonItem = .init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        fixedItem.width = 42.0
-        
-        // UIImage(systemName:)はiOS13以降しか対応していない
-        if #available(iOS 13.0, *) {
-            let leftButtonImage = UIImage(systemName: "chevron.left")
-            let rightButtonImage = UIImage(systemName: "chevron.right")!
-            self.navigationBackButton = .init(image: leftButtonImage, landscapeImagePhone: leftButtonImage, style: .plain, target: self, action: #selector(onTapGoBack(_:)))
-            self.navigationForwardButton = .init(image: rightButtonImage, landscapeImagePhone: rightButtonImage, style: .plain, target: self, action: #selector(onTapGoForward(_:)))
-        } else {
-            self.navigationBackButton = .init(title: "back", style: .plain, target: self, action: #selector(onTapGoBack(_:)))
-            self.navigationForwardButton = .init(title: "forward", style: .plain, target: self, action: #selector(onTapGoForward(_:)))
-        }
-        
-        // toolbarにボタンを追加
-        toolBar.items = [
-            self.navigationBackButton,
-            fixedItem,
-            self.navigationForwardButton,
-            .init(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-        ]
-        
-        if #available(iOS 13.0, *) {
-            toolBar.backgroundColor = .systemBackground
-        } else {
-            toolBar.backgroundColor = .init(white: 1.0, alpha: 0.85)
-        }
-        
-        // progressbar設定
-        progressBar.progressViewStyle = .bar
-        
-        // webview設定
-        let doneButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(onTapDone(_:)))
-        navigationItem.leftBarButtonItem = doneButtonItem
-        hostnameObservationToken = webView.observe(\.title) { (object, change) in
-            self.title = self.webView.title
-        }
-        self.webView.navigationDelegate = self
+        // webView設定
+        webView.customUserAgent = "Mozilla/5.0 (iPhone; iPhone like Mac OS X) AppleWebKit (KHTML, like Gecko) Safari"
+        webView.navigationDelegate = self
         
         self.progressObservationToken = webView.observe(\.estimatedProgress) { (object, change) in
             self.progressBar.progress = Float(self.webView.estimatedProgress)
@@ -141,7 +84,25 @@ class AuthViewController: UIViewController {
         self.navigationGoForwardObservationToken = webView.observe(\.canGoForward) { (object, change) in
             self.navigationForwardButton.isEnabled = self.webView.canGoForward
         }
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // 認証URLを生成して読み込み開始
+        if(!self.isLoaded){
+            let config = RequestConfig(
+                url: URL(string: "https://accounts.google.com/o/oauth2/auth")!,
+                method: .GET,
+                queryItems: [
+                    "key": self.apiCredential!.APIKey,
+                    "client_id": self.apiCredential!.clientID,
+                    "redirect_uri": "urn:ietf:wg:oauth:2.0:oob",
+                    "response_type": "code",
+                    "scope": self.scope.map({$0.rawValue}).joined(separator: " "),
+                    "access_type": "offline"
+                ])
+            webView.load(config.createURLRequest())
+            self.isLoaded = true
+        }
     }
     
     // MARK: - view events
@@ -163,6 +124,78 @@ class AuthViewController: UIViewController {
     }
     
     // MARK: - configure methods
+    
+    /// setup view components.
+    func setupView() {
+        
+        // componentsを追加して
+        self.view.addSubview(webView)
+        self.view.addSubview(toolBar)
+        self.view.addSubview(progressBar)
+        
+        // toolbar初期化
+        let fixedItem: UIBarButtonItem = .init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        fixedItem.width = 42.0
+        
+        // UIImage(systemName:)はiOS13以降しか対応していない
+        if #available(iOS 13.0, *) {
+            let leftButtonImage = UIImage(systemName: "chevron.left")
+            let rightButtonImage = UIImage(systemName: "chevron.right")!
+            self.navigationBackButton = .init(image: leftButtonImage, landscapeImagePhone: leftButtonImage, style: .plain, target: self, action: #selector(onTapGoBack(_:)))
+            self.navigationForwardButton = .init(image: rightButtonImage, landscapeImagePhone: rightButtonImage, style: .plain, target: self, action: #selector(onTapGoForward(_:)))
+        } else {
+            self.navigationBackButton = .init(title: "back", style: .plain, target: self, action: #selector(onTapGoBack(_:)))
+            self.navigationForwardButton = .init(title: "forward", style: .plain, target: self, action: #selector(onTapGoForward(_:)))
+        }
+        
+        // ボタン追加
+        toolBar.items = [
+            self.navigationBackButton,
+            fixedItem,
+            self.navigationForwardButton,
+            .init(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+        ]
+        
+        if #available(iOS 13.0, *) {
+            toolBar.backgroundColor = .systemBackground
+        } else {
+            toolBar.backgroundColor = .init(white: 1.0, alpha: 0.85)
+        }
+        
+        // progressbar初期化
+        progressBar.progressViewStyle = .bar
+        
+        // webview設定
+        let doneButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(onTapDone(_:)))
+        navigationItem.leftBarButtonItem = doneButtonItem
+        hostnameObservationToken = webView.observe(\.title) { (object, change) in
+            self.title = self.webView.title
+        }
+    }
+    
+    /// setup auto layout.
+    private func setupAutoLayout(){
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        toolBar.translatesAutoresizingMaskIntoConstraints = false
+        progressBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        // progressbar
+        progressBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        progressBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        progressBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        // webview
+        webView.topAnchor.constraint(equalTo: progressBar.topAnchor).isActive = true
+        webView.bottomAnchor.constraint(equalTo: toolBar.topAnchor).isActive = true
+        webView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        webView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        // toolbar
+        toolBar.topAnchor.constraint(equalTo: webView.bottomAnchor).isActive = true
+        toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        toolBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        toolBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+    }
     
     /// Inject credentials from other class.
     /// - Parameters:
