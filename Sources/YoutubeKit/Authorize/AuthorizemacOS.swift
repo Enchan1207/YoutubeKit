@@ -5,7 +5,7 @@
 //  Created by EnchantCode on 2021/03/22.
 //
 
-#if os(OSX)
+#if os(macOS)
 import Cocoa
 
 public extension YoutubeKit {
@@ -18,12 +18,11 @@ public extension YoutubeKit {
     @available(macOS 10.13, *)
     func authorize (scope: [YoutubeKit.Scope],
                     success: @escaping SuccessCallback<YoutubeKit.AccessCredential>, failure: @escaping FailCallback){
+        let authViewController = AuthViewControllermacOS()
+        let authWindow = AuthWindow(contentViewController: authViewController)
         
-        let authViewController = NSViewController()
-//        authViewController.configure
-        let window = AuthWindow()
-        
-        window.makeKeyAndOrderFront(self)
+        let windowController = NSWindowController(window: authWindow)
+        windowController.showWindow(self)
     }
 
 }

@@ -1,29 +1,23 @@
 //
-//  AuthViewController.swift
+//  AuthViewControllermacOS.swift
 //  YKDemoiOS
 //
 //  Created by EnchantCode on 2021/04/03.
 //
 
-#if os(OSX)
+#if os(macOS)
 
 import Cocoa
 
-open class AuthViewControllermacOS: NSViewController {
-
-    // MARK: - initializers
-    
-    init(){
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    public required init?(coder: NSCoder) {
-        fatalError("\(#function) is not implemeted!")
-    }
+class AuthViewControllermacOS: NSViewController {
     
     // MARK: - view lifecycle
     
-    override open func viewDidLoad() {
+    override func loadView() {
+        self.view = NSView(frame: .init(x: 400, y: 400, width: 400, height: 300))
+    }
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
         
     }
