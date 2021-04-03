@@ -18,9 +18,20 @@ public extension YoutubeKit {
     @available(macOS 10.13, *)
     func authorize (scope: [YoutubeKit.Scope],
                     success: @escaping SuccessCallback<YoutubeKit.AccessCredential>, failure: @escaping FailCallback){
+        
+        // AuthWindow生成
         let authViewController = AuthViewControllermacOS()
         let authWindow = AuthWindow(contentViewController: authViewController)
         
+        // データを渡して
+        authViewController.configure(apiCredential: self.apiCredential, scope: scope) { (credential) in
+            self.accessCredential = credential
+            success(credential)
+        } failure: { (error) in
+            failure(error)
+        }
+        
+        // 表示
         let windowController = NSWindowController(window: authWindow)
         windowController.showWindow(self)
     }
