@@ -5,6 +5,8 @@
 //  Created by EnchantCode on 2021/03/22.
 //
 
+#if os(iOS)
+
 import UIKit
 import WebKit
 
@@ -254,3 +256,4 @@ extension AuthViewController: WKNavigationDelegate{
     
 }
 
+#endif

@@ -24,7 +24,9 @@ let package = Package(
         .target(
             name: "YoutubeKit",
             dependencies: [],
-            exclude: ["Info.plist"]
+            exclude: [
+                "Info.plist"
+            ]
         ),
         .testTarget(
             name: "YoutubeKitTests",
