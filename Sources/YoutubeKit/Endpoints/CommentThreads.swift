@@ -50,4 +50,56 @@ public extension YoutubeKit{
             success(playlists)
         }, failure: failure)
     }
+    
+    /// Insert new comment-thread to video.
+    /// (cf. https://developers.google.com/youtube/v3/docs/commentThreads/insert?hl=ja)
+    func insertCommentThread(new: CommentThreadResource,
+                             success: @escaping SuccessCallback<CommentThreadResource>, failure: @escaping FailCallback){
+        // パラメータ挿入
+        var queryItems: [String: Any] = [:]
+        let part: [YoutubeKit.Part] = [.id, .snippet, .replies]
+        queryItems["part"] = part.map({$0.rawValue}).joined(separator: ",")
+        
+        // ヘッダ,リクエストボディ設定
+        let requestHeader:[String: String] = [
+            "Content-Type": "application/json"
+        ]
+        
+        // configに値を設定してリクエスト
+        let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/commentThreads")!, method: .POST, requestHeader: requestHeader, requestBody: new.serialize()!.data(using: .utf8), queryItems: queryItems)
+        
+        sendRequestWithAutoUpdate(config: config, success: { (response) in
+            guard let playlistItem = CommentThreadResource.deserialize(object: response)else {
+                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize comment item"))
+                return
+            }
+            success(playlistItem)
+        }, failure: failure)
+    }
+    
+    /// Update comment-thread to video.
+    /// (cf. https://developers.google.com/youtube/v3/docs/commentThreads/insert?hl=ja)
+    func updateCommentThread(new: CommentThreadResource,
+                             success: @escaping SuccessCallback<CommentThreadResource>, failure: @escaping FailCallback){
+        // パラメータ挿入
+        var queryItems: [String: Any] = [:]
+        let part: [YoutubeKit.Part] = [.id, .snippet, .replies]
+        queryItems["part"] = part.map({$0.rawValue}).joined(separator: ",")
+        
+        // ヘッダ,リクエストボディ設定
+        let requestHeader:[String: String] = [
+            "Content-Type": "application/json"
+        ]
+        
+        // configに値を設定してリクエスト
+        let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/commentThreads")!, method: .PUT, requestHeader: requestHeader, requestBody: new.serialize()!.data(using: .utf8), queryItems: queryItems)
+        
+        sendRequestWithAutoUpdate(config: config, success: { (response) in
+            guard let playlistItem = CommentThreadResource.deserialize(object: response)else {
+                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize comment item"))
+                return
+            }
+            success(playlistItem)
+        }, failure: failure)
+    }
 }

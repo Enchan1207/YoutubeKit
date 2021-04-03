@@ -7,7 +7,10 @@
 
 import Foundation
 
-public struct CollectionResource<T: Serializable>: Serializable{
+public struct CollectionResource<T: Serializable>: Serializable, CustomStringConvertible{
+    
+    // MARK: - parameters
+    
     public let kind: String?
     public struct PageInfo: Codable{
         public let totalResults: Int
@@ -19,4 +22,12 @@ public struct CollectionResource<T: Serializable>: Serializable{
     public let nextPageToken: String?
     
     public let items: [T]
+    
+    // MARK: - properties
+    
+    public var description: String{
+        get{
+            return items.map({"\($0)"}).joined(separator: "\n")
+        }
+    }
 }
