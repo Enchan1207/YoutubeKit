@@ -42,7 +42,7 @@ public extension YoutubeKit{
         // configに値を設定してリクエスト アクセストークンは挿入しない
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/commentThreads")!, method: .GET,  queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, injectToken: false, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, success: { (response) in
             guard let playlists = CollectionResource<CommentThreadResource>.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize comment-thread items"))
                 return

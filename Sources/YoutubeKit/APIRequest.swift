@@ -15,17 +15,13 @@ public extension YoutubeKit{
     ///     - success: success callback
     ///     - failure: fairule callback
     func sendRequest(config _config: RequestConfig,
-                     injectToken: Bool = true,
                      success: @escaping SuccessCallback<String>, failure: @escaping FailCallback){
         
         var config = _config
         
-        // injectTokenがfalseでなければ
-        if injectToken{
-            // アクセストークンをヘッダに挿入
-            if let accessCredential = self.accessCredential {
-                config.requestHeader["Authorization"] = "Bearer \(accessCredential.accessToken)"
-            }
+        // アクセストークンをヘッダに挿入
+        if let accessCredential = self.accessCredential {
+            config.requestHeader["Authorization"] = "Bearer \(accessCredential.accessToken)"
         }
         
         // APIキー自動挿入
@@ -67,7 +63,6 @@ public extension YoutubeKit{
     ///     - success: success callback
     ///     - failure: fairule callback
     func sendRequestWithAutoUpdate(config _config: RequestConfig,
-                                   injectToken: Bool = true,
                                    success: @escaping SuccessCallback<String>, failure: @escaping FailCallback){
         // ログインしていなければ飛ばす
         guard let accessCredential = self.accessCredential else{
@@ -82,7 +77,7 @@ public extension YoutubeKit{
                 self.sendRequest(config: _config, success: success, failure: failure)
             }, failure: failure)
         }else{
-            self.sendRequest(config: _config, injectToken: injectToken, success: success, failure: failure)
+            self.sendRequest(config: _config, success: success, failure: failure)
         }
     }
     
