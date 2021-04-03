@@ -1,6 +1,6 @@
 //
-//  YoutubeKitTests.swift
-//
+//  EndpointTests.swift
+//  APIエンドポイントのテスト (⌘Uで回りますが実際にAPIを叩いてしまうので注意)
 //
 //  Created by EnchantCode on 2021/04/02.
 //
@@ -8,47 +8,11 @@
 import XCTest
 @testable import YoutubeKit
 
-final class YoutubeKitTests: XCTestCase {
+final class EndpointTests: XCTestCase {
     
-    var isTokenUpdated = false
     var youtube = YoutubeKit(apiCredential: API_CREDENTIAL, accessCredential: ACCESS_CREDENTIAL)
-    
-    // setup
-    override func setUpWithError() throws {
-        
-        if !isTokenUpdated{
-            isTokenUpdated = true
-            // アクセストークン更新
-            print("アクセストークンを更新しています…")
-            do {
-                try updateAccessToken()
-            } catch {
-                print("エラーが発生しました")
-                throw error
-            }
-            print("完了")
-        }
-    }
-    
-    // アクセストークン更新
-    func updateAccessToken() throws{
-        let sema = DispatchSemaphore(value: 0)
-        var error: Error? = nil
-        
-        self.youtube.updateToken(success: { (credential) in
-            print("トークン: \(credential.accessToken)\n更新トークン: \(credential.refreshToken)\n期限: \(credential.expires)")
-            sema.signal()
-        }, failure: { (_error) in
-            error = _error
-            sema.signal()
-        })
-        sema.wait()
-        
-        guard error != nil else {return}
-        throw error!
-    }
-    
-    /// Channelsエンドポイントのテスト
+
+    /// Channels (GET)
     func testGetChannel() throws {
         let sema = DispatchSemaphore(value: 0)
         var error: Error? = nil
@@ -65,7 +29,7 @@ final class YoutubeKitTests: XCTestCase {
         throw error!
     }
     
-    /// Searchエンドポイントのテスト
+    /// Search (GET)
     func testSearch() throws {
         let sema = DispatchSemaphore(value: 0)
         var error: Error? = nil
@@ -86,14 +50,14 @@ final class YoutubeKitTests: XCTestCase {
         throw error!
     }
     
-    /// CommentThreadエンドポイントのテスト
+    /// CommentThread (GET)
     func testGetCommentThread() throws {
         let sema = DispatchSemaphore(value: 0)
         var error: Error? = nil
-        self.youtube.getCommentThread(videoId: "CXHuBvvrlsw", maxResults: 100, order: .relevance, textFormat: .plainText) { (result) in
-            let threads = result.items
-            for thread in threads{
-                print(thread.serialize()!)
+        self.youtube.getCommentThread(videoId: "GEZhD3J89ZE", maxResults: 100, order: .relevance, textFormat: .plainText) { (result) in
+            for thread in result.items{
+                print(thread)
+                print("")
             }
             sema.signal()
         } failure: { (_error) in
@@ -106,11 +70,11 @@ final class YoutubeKitTests: XCTestCase {
         throw error!
     }
     
-    /// Commentエンドポイントのテスト
+    /// Comment (GET)
     func testComment() throws {
         let sema = DispatchSemaphore(value: 0)
         var error:Error? = nil
-        self.youtube.getComment(id: ["UgzMg9Oq9y-uKs3zq1l4AaABAg"], textFormat: .plainText) { (result) in
+        self.youtube.getComment(id: [""], textFormat: .plainText) { (result) in
             print(result)
             sema.signal()
         } failure: { (_error) in
@@ -121,11 +85,32 @@ final class YoutubeKitTests: XCTestCase {
         guard error != nil else {return}
         throw error!
     }
+
+    /// CommentThread (POST)
+    func testInsertCommentThread() throws {
+        let sema = DispatchSemaphore(value: 0)
+        var error: Error?
+        
+        let commentThread = CommentThreadResource(channelID: "", videoID: nil, content: "")
+        self.youtube.insertCommentThread(new: commentThread) { (result) in
+            print(result)
+            sema.signal()
+        } failure: { (_error) in
+            error = _error
+            sema.signal()
+        }
+        
+        sema.wait()
+        guard error != nil else {return}
+        throw error!
+    }
     
+    /// Testcases
     static var allTests = [
         ("testGetChannel", testGetChannel),
-        ("testGetCommentThread", testGetCommentThread),
         ("testSearch", testSearch),
+        ("testGetCommentThread", testGetCommentThread),
         ("testComment", testComment),
+        ("testInsertCommentThread", testInsertCommentThread),
     ]
 }
