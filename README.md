@@ -2,8 +2,7 @@
 
 ![SPM](https://img.shields.io/badge/SPM-supported-DE5C43)
 ![platforms](https://img.shields.io/badge/platform-iOS%20%7C%20macOS-lightgrey)
-[![release](https://img.shields.io/github/v/release/Enchan1207/YoutubeKit)](releases)
-
+[![release](https://img.shields.io/github/v/release/Enchan1207/YoutubeKit)](https://github.com/Enchan1207/YoutubeKit/releases)
 
 ## Overview
 
@@ -21,8 +20,7 @@ Now, This framework only supports SPM (Swift Package Manager).
 
 If you don't have any access tokens:
 
-```swift: instantiate
-
+```swift
 // Credentials
 let API_KEY = "XXXXXX"
 let CLIENT_ID = "XXXXXX"
@@ -36,8 +34,7 @@ let youtube = YoutubeKit(apiCredential: API_CREDENTIAL, accessCredential: nil)
 
 or if you already have access token:
 
-```swift: instantiatewithAT
-
+```swift
 // Credentials
 let API_KEY = "XXXXXX"
 let CLIENT_ID = "XXXXXX"
@@ -60,7 +57,8 @@ To authorize to access user datas in your application, set `Scope` and call `aut
 **NOTE**: This authorization flow can be only used at iOS or macOS. if you want to use it at console application, you need to set `AccessCredential` when instantiation.  
 
 for iOS:
-```swift:authorize
+
+```swift
 let scope: [YoutubeKit.Scope] = [.readwrite, .forceSSL]
 self.youtube.authorize(presentViewController: self, scope: scope) { (credential) in
     print(credential)
@@ -70,7 +68,8 @@ self.youtube.authorize(presentViewController: self, scope: scope) { (credential)
 ```
 
 for macOS:
-```swift:authorize
+
+```swift
 let scope: [YoutubeKit.Scope] = [.readwrite, .forceSSL]
 self.youtube.authorize(scope: scope) { (credential) in
     print(credential)
