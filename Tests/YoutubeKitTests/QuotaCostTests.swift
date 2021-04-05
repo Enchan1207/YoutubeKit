@@ -10,10 +10,11 @@ import XCTest
 
 final class QuotaCostTests: XCTestCase {
     
+    let youtube_1 = YoutubeKit(apiCredential: API_CREDENTIAL, accessCredential: ACCESS_CREDENTIAL)
+    
     ///
     func testSetQuotaCosts() throws{
         // 単純にインスタンスからコストを設定
-        let youtube_1 = YoutubeKit(apiCredential: API_CREDENTIAL, accessCredential: ACCESS_CREDENTIAL)
         youtube_1.addQuota(10)
         XCTAssertEqual(youtube_1.getQuota(), YoutubeKit.quotaCost)
         
@@ -32,15 +33,42 @@ final class QuotaCostTests: XCTestCase {
         
     }
     
-    func testAutoResetQuotaTests() throws {
-        let youtube_1 = YoutubeKit(apiCredential: API_CREDENTIAL, accessCredential: ACCESS_CREDENTIAL)
+    func testAutoResetQuotaFailPattern() throws {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "Y/M/d hh:mm:ss"
         
-        print(YoutubeKit.quotaLastModified)
+        // 失敗パターン
+        
+        // 1. lastmodifiedがリセット日時より後
+        let lastModified_1: Date = formatter.date(from: "2021/04/05 08:01:00")!
+        let now_1: Date = formatter.date(from: "2021/04/05 09:00:00")!
+        YoutubeKit.quotaLastModified = lastModified_1
+        let result_1 = youtube_1.resetQuotaIfNeeded(now_1)
+        XCTAssertFalse(result_1)
+        
+        // 2. 現在時刻がリセット日時より前
+        let lastModified_2: Date = formatter.date(from: "2021/04/05 08:01:00")!
+        let now_2: Date = formatter.date(from: "2021/04/05 07:59:00")!
+        YoutubeKit.quotaLastModified = lastModified_2
+        let result_2 = youtube_1.resetQuotaIfNeeded(now_2)
+        XCTAssertFalse(result_2)
+    }
+    
+    func testAutoResetQuotaSuccessPattern() throws {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "Y/M/d hh:mm:ss"
+        
+        // 成功パターン
+        
+        // lastmodified -> reset -> now の順
+        let lastModified_1: Date = formatter.date(from: "2021/04/05 07:01:00")!
+        let now_1: Date = formatter.date(from: "2021/04/05 09:00:00")!
+        YoutubeKit.quotaLastModified = lastModified_1
+        let result_1 = youtube_1.resetQuotaIfNeeded(now_1)
+        XCTAssertTrue(result_1)
     }
     
     func testGetResetDate() throws {
-        let youtube_1 = YoutubeKit(apiCredential: API_CREDENTIAL, accessCredential: ACCESS_CREDENTIAL)
-        
         let resetDate = youtube_1.getResetDate()
         
         let formatter = DateFormatter()
@@ -48,11 +76,10 @@ final class QuotaCostTests: XCTestCase {
         print(formatter.string(from: resetDate))
     }
     
-    
     /// Testcases
     static var allTests = [
         ("testSetQuotaCosts", testSetQuotaCosts),
-        ("testAutoResetQuotaTests", testAutoResetQuotaTests),
+        ("testAutoResetQuotaFailPattern", testAutoResetQuotaFailPattern),
         ("testGetResetDate", testGetResetDate)
     ]
 }

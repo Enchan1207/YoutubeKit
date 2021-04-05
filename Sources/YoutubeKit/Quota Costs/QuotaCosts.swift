@@ -11,27 +11,26 @@ extension YoutubeKit {
     
     /// add quota costs.
     func addQuota(_ quota: UInt){
-        resetQuotaIfNeeded()
+        _ = resetQuotaIfNeeded()
+        Self.quotaLastModified = Date()
         Self.quotaCost += quota
     }
     
     /// reset quota if needed.
-    func resetQuotaIfNeeded(){
-        
-        // 更新
-        Self.quotaLastModified = Date()
+    func resetQuotaIfNeeded(_ now: Date = .init()) -> Bool {
         
         // lastmodifiedの日のリセット日時
         let resetDate = getResetDate(Self.quotaLastModified)
         
         // lastModifiedがそれより後(つまり、今後最大24時間はリセットされない)ならreturn
-        guard Self.quotaLastModified <= resetDate else {return}
+        guard Self.quotaLastModified <= resetDate else { return false }
         
         // リセット日時が現在日時より後(つまり、lastmodified -> now -> resetDate)ならreturn
-        guard Self.quotaLastModified <= Date() else {return}
+        guard Self.quotaLastModified <= now else { return false }
         
         // RESET
         resetQuota()
+        return true
     }
     
     /// get today's reset date.
@@ -45,7 +44,7 @@ extension YoutubeKit {
     
     /// get quota costs.
     public func getQuota() -> UInt{
-        resetQuotaIfNeeded()
+        _ = resetQuotaIfNeeded()
         return Self.quotaCost
     }
     
