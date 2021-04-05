@@ -30,7 +30,7 @@ public extension YoutubeKit{
         
         sendRequestWithAutoUpdate(config: config, success: { (response) in
             guard let playlists = CollectionResource<VideoResource>.deserialize(object: response)else {
-                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize video info"))
+                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
             }
             success(playlists)
@@ -75,7 +75,7 @@ public extension YoutubeKit{
         
         sendRequestWithAutoUpdate(config: config, success: { (response) in
             guard let rating = VideoRateReasource.deserialize(object: response)else {
-                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize video rate"))
+                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
             }
             success(rating)

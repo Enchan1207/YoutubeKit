@@ -36,7 +36,7 @@ public extension YoutubeKit{
         
         sendRequestWithAutoUpdate(config: config, success: { (response) in
             guard let searchresults = CollectionResource<SearchResource>.deserialize(object: response)else {
-                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize search result"))
+                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
             }
             success(searchresults)
