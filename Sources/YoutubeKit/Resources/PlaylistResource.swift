@@ -5,6 +5,7 @@
 //  Created by EnchantCode on 2021/03/23.
 //
 
+import Serializable
 import Foundation
 
 public struct PlaylistResource: Serializable {

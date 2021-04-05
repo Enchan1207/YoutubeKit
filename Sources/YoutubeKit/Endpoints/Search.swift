@@ -5,6 +5,7 @@
 //  Created by EnchantCode on 2021/03/24.
 //
 
+import Serializable
 import Foundation
 
 /// endpoint callers about search (https://developers.google.com/youtube/v3/docs/search/list?hl=ja)

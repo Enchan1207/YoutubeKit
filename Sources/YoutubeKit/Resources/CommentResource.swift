@@ -5,6 +5,7 @@
 //  Created by EnchantCode on 2021/04/02.
 //
 
+import Serializable
 import Foundation
 
 public struct CommentResource: Serializable, CustomStringConvertible {

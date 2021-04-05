@@ -5,6 +5,7 @@
 //  Created by EnchantCode on 2021/03/24.
 //
 
+import Serializable
 import Foundation
 
 public struct SearchResource: Serializable {

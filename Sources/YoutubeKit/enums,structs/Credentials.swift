@@ -5,6 +5,7 @@
 //  Created by EnchantCode on 2021/03/22.
 //
 
+import Serializable
 import Foundation
 
 public extension YoutubeKit {

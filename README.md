@@ -122,4 +122,8 @@ Response:
 }
 ```
 
+## Dependencies
 
+ - [Enchan1207/Serializable](https://github.com/Enchan1207/Serializable) - Extended Codable Protocol
+ 
+Due to the update timing, it is possible that everything has not been listed here. See Package.swift for the exact dependencies.

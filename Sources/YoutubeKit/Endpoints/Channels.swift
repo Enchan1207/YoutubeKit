@@ -5,6 +5,7 @@
 //  Created by EnchantCode on 2021/04/02.
 //
 
+import Serializable
 import Foundation
 
 /// endpoint callers about Channels (https://developers.google.com/youtube/v3/docs/channels/list)
