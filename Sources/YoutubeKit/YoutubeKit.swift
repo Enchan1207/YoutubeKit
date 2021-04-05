@@ -17,6 +17,7 @@ public class YoutubeKit {
     
     // Quota cost
     internal (set) public static var quotaCost: UInt = 0
+    internal (set) public static var quotaLastModified: Date = .init()
     
     /// Generate Instance.
     /// - Parameters:

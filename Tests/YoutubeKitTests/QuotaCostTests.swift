@@ -32,9 +32,27 @@ final class QuotaCostTests: XCTestCase {
         
     }
     
+    func testAutoResetQuotaTests() throws {
+        let youtube_1 = YoutubeKit(apiCredential: API_CREDENTIAL, accessCredential: ACCESS_CREDENTIAL)
+        
+        print(YoutubeKit.quotaLastModified)
+    }
+    
+    func testGetResetDate() throws {
+        let youtube_1 = YoutubeKit(apiCredential: API_CREDENTIAL, accessCredential: ACCESS_CREDENTIAL)
+        
+        let resetDate = youtube_1.getResetDate()
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "Y/M/d hh:mm:ss"
+        print(formatter.string(from: resetDate))
+    }
+    
     
     /// Testcases
     static var allTests = [
         ("testSetQuotaCosts", testSetQuotaCosts),
+        ("testAutoResetQuotaTests", testAutoResetQuotaTests),
+        ("testGetResetDate", testGetResetDate)
     ]
 }
