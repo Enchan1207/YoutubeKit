@@ -15,6 +15,9 @@ public class YoutubeKit {
     public let apiCredential: APICredential
     public var accessCredential: AccessCredential?
     
+    // Quota cost
+    internal (set) public static var quotaCost: UInt = 0
+    
     /// Generate Instance.
     /// - Parameters:
     ///    - accessCredential: Credentials of Youtube Data API
