@@ -40,10 +40,10 @@ public extension YoutubeKit{
         queryItems["searchTerms"] = searchTerms
         queryItems["textFormat"] = textFormat?.rawValue
         
-        // configに値を設定してリクエスト アクセストークンは挿入しない
+        // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/commentThreads")!, method: .GET,  queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, quota: 1, success: { (response) in
             guard let playlists = CollectionResource<CommentThreadResource>.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
@@ -69,7 +69,7 @@ public extension YoutubeKit{
         // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/commentThreads")!, method: .POST, requestHeader: requestHeader, requestBody: new.serialize()!.data(using: .utf8), queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, quota: 50, success: { (response) in
             guard let playlistItem = CommentThreadResource.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
@@ -95,7 +95,7 @@ public extension YoutubeKit{
         // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/commentThreads")!, method: .PUT, requestHeader: requestHeader, requestBody: new.serialize()!.data(using: .utf8), queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, quota: 50, success: { (response) in
             guard let playlistItem = CommentThreadResource.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
