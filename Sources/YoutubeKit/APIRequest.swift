@@ -12,9 +12,11 @@ public extension YoutubeKit{
     /// send api request using credential.
     ///  - Parameters:
     ///     - config: request configuration
+    ///     - quota: quotas consumed at the time of API call
     ///     - success: success callback
     ///     - failure: fairule callback
     func sendRequest(config _config: RequestConfig,
+                     quota: UInt,
                      success: @escaping SuccessCallback<String>, failure: @escaping FailCallback){
         
         var config = _config
@@ -53,6 +55,8 @@ public extension YoutubeKit{
                 return
             }
             
+            // リクエストに成功した場合のみQuotaを加算
+            self.addQuota(quota)
             success(responseBody)
         }.resume()
     }
@@ -60,9 +64,11 @@ public extension YoutubeKit{
     /// send api request using credential (auto-credential-update).
     ///  - Parameters:
     ///     - config: request configuration
+    ///     - quota: quotas consumed at the time of API call
     ///     - success: success callback
     ///     - failure: fairule callback
     func sendRequestWithAutoUpdate(config _config: RequestConfig,
+                                   quota: UInt,
                                    success: @escaping SuccessCallback<String>, failure: @escaping FailCallback){
         // ログインしていなければ飛ばす
         guard let accessCredential = self.accessCredential else{
@@ -74,10 +80,10 @@ public extension YoutubeKit{
         if accessCredential.isOutdated(){
             self.updateToken(success: { (credential) in
                 // 更新に成功したらrequestを飛ばす
-                self.sendRequest(config: _config, success: success, failure: failure)
+                self.sendRequest(config: _config, quota: quota, success: success, failure: failure)
             }, failure: failure)
         }else{
-            self.sendRequest(config: _config, success: success, failure: failure)
+            self.sendRequest(config: _config, quota: quota, success: success, failure: failure)
         }
     }
     

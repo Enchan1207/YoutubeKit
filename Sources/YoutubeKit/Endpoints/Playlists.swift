@@ -39,7 +39,7 @@ public extension YoutubeKit {
         // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/playlists")!, method: .GET,  queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, quota: 1, success: { (response) in
             guard let playlists = CollectionResource<PlaylistResource>.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
@@ -67,7 +67,7 @@ public extension YoutubeKit {
         // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/playlists")!, method: .POST, requestHeader: requestHeader, requestBody: new.serialize()!.data(using: .utf8), queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, quota: 50, success: { (response) in
             guard let playlist = PlaylistResource.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
@@ -93,7 +93,7 @@ public extension YoutubeKit {
         // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/playlists")!, method: .PUT, requestHeader: requestHeader, requestBody: target.serialize()!.data(using: .utf8), queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, quota: 50, success: { (response) in
             guard let playlist = PlaylistResource.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
@@ -113,7 +113,7 @@ public extension YoutubeKit {
         // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/playlists")!, method: .DELETE, queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, quota: 50, success: { (response) in
             success(nil)
         }, failure: failure)
     }

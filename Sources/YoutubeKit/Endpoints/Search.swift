@@ -34,7 +34,7 @@ public extension YoutubeKit{
         // configに値を設定してリクエスト
         let config = RequestConfig(url: URL(string: "https://www.googleapis.com/youtube/v3/search")!, method: .GET, queryItems: queryItems)
         
-        sendRequestWithAutoUpdate(config: config, success: { (response) in
+        sendRequestWithAutoUpdate(config: config, quota: 100, success: { (response) in
             guard let searchresults = CollectionResource<SearchResource>.deserialize(object: response)else {
                 failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
