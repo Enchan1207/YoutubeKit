@@ -39,7 +39,7 @@ public extension YoutubeKit{
         
         sendRequestWithAutoUpdate(config: config, success: { (response) in
             guard let playlists = CollectionResource<CommentResource>.deserialize(object: response)else {
-                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize comment items"))
+                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
             }
             success(playlists)
@@ -66,7 +66,7 @@ public extension YoutubeKit{
         
         sendRequestWithAutoUpdate(config: config, success: { (response) in
             guard let playlistItem = CommentResource.deserialize(object: response)else {
-                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize comment item"))
+                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
             }
             success(playlistItem)
@@ -92,7 +92,7 @@ public extension YoutubeKit{
         
         sendRequestWithAutoUpdate(config: config, success: { (response) in
             guard let playlistItem = CommentResource.deserialize(object: response)else {
-                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize comment item"))
+                failure(YoutubeKit.APIError.codableError("\(#function): couldn't deserialize: \(response)"))
                 return
             }
             success(playlistItem)
