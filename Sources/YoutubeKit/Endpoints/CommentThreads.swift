@@ -33,6 +33,7 @@ public extension YoutubeKit{
         queryItems["part"] = part.map({$0.rawValue}).joined(separator: ",")
         queryItems["id"] = id?.joined(separator: ",")
         queryItems["allThreadsRelatedToChannelId"] = allThreadsRelatedToChannelId
+        queryItems["channelId"] = channelId
         queryItems["videoId"] = videoId
         queryItems["maxResults"] = maxResults
         queryItems["pageToken"] = pageToken

@@ -70,6 +70,28 @@ final class EndpointTests: XCTestCase {
         throw error!
     }
     
+    func testGetCommentThreadByChannel() throws {
+        let targetID = "UCgMPP6RRjktV7krOfyUewqw"
+        
+        let sema = DispatchSemaphore(value: 0)
+        var error: Error? = nil
+        self.youtube.getCommentThread(channelId: targetID, order: .relevance) { (result) in
+            for thread in result.items{
+                print(thread)
+                print("")
+            }
+            sema.signal()
+        } failure: { (_error) in
+            error = _error
+            sema.signal()
+        }
+        sema.wait()
+        
+        guard error != nil else {return}
+        throw error!
+        
+    }
+    
     /// Comment (GET)
     func testComment() throws {
         let sema = DispatchSemaphore(value: 0)
