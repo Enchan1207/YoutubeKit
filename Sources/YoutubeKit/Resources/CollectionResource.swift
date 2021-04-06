@@ -14,7 +14,7 @@ public struct CollectionResource<T: Serializable>: Serializable, CustomStringCon
     
     public let kind: String?
     public struct PageInfo: Codable{
-        public let totalResults: Int
+        public let totalResults: Int?
         public let resultsPerPage: Int
     }
     public let pageInfo: PageInfo?
