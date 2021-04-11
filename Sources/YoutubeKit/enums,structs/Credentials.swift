@@ -10,7 +10,7 @@ import Foundation
 
 public extension YoutubeKit {
     // API系
-    struct APICredential{
+    struct APICredential: Serializable{
         let APIKey: String
         let clientID: String
         let clientSecret: String
