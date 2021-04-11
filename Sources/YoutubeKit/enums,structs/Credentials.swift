@@ -11,9 +11,9 @@ import Foundation
 public extension YoutubeKit {
     // API系
     struct APICredential: Serializable{
-        let APIKey: String
-        let clientID: String
-        let clientSecret: String
+        public let APIKey: String
+        public let clientID: String
+        public let clientSecret: String
         
         public init(apikey: String, clientID: String, clientSecret: String) {
             self.APIKey = apikey
@@ -24,10 +24,10 @@ public extension YoutubeKit {
     
     // ユーザ系
     struct AccessCredential: Serializable{
-        var accessToken: String
-        var refreshToken: String
-        var expires: Date = Date()
-        var grantedScopes: [YoutubeKit.Scope] = []
+        internal (set) public var accessToken: String
+        internal (set) public var refreshToken: String
+        internal (set) public var expires: Date = Date()
+        internal (set) public var grantedScopes: [YoutubeKit.Scope] = []
         
         public init(accessToken: String, refreshToken: String, expires: Date, grantedScopes: [YoutubeKit.Scope]){
             self.accessToken = accessToken
